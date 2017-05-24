@@ -296,10 +296,11 @@ define([
             var options_list = [];
             options_list.push(["-", ""]);
             options_list.push(["Manually graded answer", "manual"]);
-            if (cell.cell_type == "code") {
+            //Adding Autograding for even text
+            //if (cell.cell_type == "code") {
                 options_list.push(["Autograded answer", "solution"]);
                 options_list.push(["Autograder tests", "tests"]);
-            }
+            //}
             options_list.push(["Read-only", "readonly"]);
 
             var setter = function (cell, val) {
@@ -333,9 +334,9 @@ define([
             var getter = function (cell) {
                 if (is_solution(cell) && is_grade(cell)) {
                     return "manual";
-                } else if (is_solution(cell) && cell.cell_type === "code") {
+                } else if (is_solution(cell)) {
                     return "solution";
-                } else if (is_grade(cell) && cell.cell_type === "code") {
+                } else if (is_grade(cell)) {
                     return "tests";
                 } else if (is_locked(cell)) {
                     return "readonly";
