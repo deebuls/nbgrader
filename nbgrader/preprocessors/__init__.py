@@ -16,6 +16,7 @@ from .deduplicateids import DeduplicateIds
 from .latesubmissions import AssignLatePenalties
 from .clearhiddentests import ClearHiddenTests
 from .overwritekernelspec import OverwriteKernelspec
+from .autogradetext import AutogradeTextSolutions
 
 __all__ = [
     "AssignLatePenalties",
@@ -35,4 +36,5 @@ __all__ = [
     "DeduplicateIds",
     "ClearHiddenTests",
     "OverwriteKernelspec",
+    "AutogradeTextSolutions",
 ]
