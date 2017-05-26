@@ -7,6 +7,12 @@ from .. import utils
 from ..api import Gradebook, MissingEntry
 from . import NbGraderPreprocessor
 
+from ..plugins.nlp import find_synonyms
+from ..plugins.nlp import tokenize_sentence
+from ..plugins.nlp import filter_stop_words
+from ..plugins.nlp import filter_repeated_words
+from ..plugins.nlp import edit
+
 
 class AutogradeTextSolutions(NbGraderPreprocessor):
 
@@ -40,8 +46,20 @@ class AutogradeTextSolutions(NbGraderPreprocessor):
         in_solution = False
         replaced_solution = False
 
+        sentence_1 = solution
+        tokenized_sentence_1 = tokenize_sentence(sentence_1)
+        tokenized_sentence_1 = filter_stop_words(tokenized_sentence_1)
+        tokenized_sentence_1 = filter_repeated_words(tokenized_sentence_1)
+        sentence_2 = cell.source
+        tokenized_sentence_2 = tokenize_sentence(sentence_2)
+        tokenized_sentence_2 = filter_stop_words(tokenized_sentence_2)
+        tokenized_sentence_2 = filter_repeated_words(tokenized_sentence_2)
+        connections = find_synonyms(tokenized_sentence_1, tokenized_sentence_2)
+        edited_sentence = edit(tokenize_sentence(sentence_2), connections)
+        self.log.info("Matched words: %s", edited_sentence)
+        cell.source = edited_sentence
         # replace the cell source
-        cell.source = "\n".join(new_lines)
+        #cell.source = "\n".join(new_lines)
 
         return replaced_solution
 
